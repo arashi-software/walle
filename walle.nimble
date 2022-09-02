@@ -11,4 +11,4 @@ bin           = @["walle"]
 # Dependencies
 
 requires "nim >= 1.4.8"
-requires "harpoon"
+
