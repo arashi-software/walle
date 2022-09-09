@@ -14,10 +14,10 @@ void main(List<String> arguments) async {
       abbr: "s",
       defaultsTo: "wallpapers+wallpaper",
       help: "The subreeddits to get wallpapers from (seperated by a '+')");
-  parser.addOption("flags",
+  parser.addOption("flair",
       abbr: "f",
       defaultsTo: "none",
-      help: "Only search for posts with specific flags (seperated by a comma)");
+      help: "Only search for posts with specific a flair");
   parser.addFlag("help", abbr: "h", help: "Show this message", negatable: false,
       callback: (help) {
     if (help) {
@@ -33,6 +33,14 @@ void main(List<String> arguments) async {
   while (true) {
     var postJson = fixJson(await http.read(url));
     var idx = Random().nextInt(postJson['data']['children'].length);
+    if (args["flair"] != "none") {
+      if (postJson['data']['children'][idx]['data']["link_flair_text"] ==
+              null ||
+          !(postJson['data']['children'][idx]['data']["link_flair_text"]
+              .contains(args['flair']))) {
+        continue;
+      }
+    }
     img = postJson['data']['children'][idx]['data']["url_overridden_by_dest"];
     if (img == null) {
       continue;
