@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:io' show Platform, stdout;
+import 'dart:io' show Platform, stdout, File;
 
 String? getHomeDir() {
   String? home = "";
@@ -18,4 +18,19 @@ dynamic fixJson(String json) {
   } else {
     return jsonDecode(json);
   }
+}
+
+bool inPath(String file) {
+  var path = Platform.environment["PATH"]!.split(":");
+  bool found = false;
+  for (var i = 0; i < path.length; i++) {
+    var dir = path[i];
+    if (!dir.endsWith('/')) {
+      dir = "$dir/";
+    }
+    if (found == false & File("$dir$file").existsSync()) {
+      found = true;
+    }
+  }
+  return found;
 }
