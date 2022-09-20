@@ -17,6 +17,8 @@ import 'package:args/args.dart';
 import 'package:http/http.dart' as http;
 import 'package:process_run/shell.dart';
 
+final vnum = "1.0.0";
+
 void main(List<String> arguments) async {
   // Command line args //
   var parser = ArgParser();
@@ -30,6 +32,13 @@ void main(List<String> arguments) async {
       callback: (help) {
     if (help) {
       print(parser.usage);
+      exit(0);
+    }
+  });  
+  parser.addFlag("version", abbr: "v", help: "Show version info", negatable: false,
+      callback: (version) {
+    if (version) {
+      print(vnum);
       exit(0);
     }
   });
